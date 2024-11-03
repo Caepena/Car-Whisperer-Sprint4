@@ -9,6 +9,7 @@ export default function Menu() {
                 <li className="ml-14"><Link href="/clientes">Clientes</Link></li>
                 <li className="ml-14"><Link href="/sinistros">Sinistros</Link></li>
                 <li className="ml-14"><Link href="/pagamentos">Pagamentos</Link></li>
+                <li className="ml-14"><Link href="/chat-online">Chat Online</Link></li>
             </ul>
         </nav>
     )
