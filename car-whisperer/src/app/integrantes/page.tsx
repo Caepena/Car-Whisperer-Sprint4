@@ -2,10 +2,12 @@ import Integrante from "@/components/Integrante/Integrante";
 import fotoMarcos from "@/images/Marcos.jpg"
 import fotoDiego from "@/images/Diego.jpg"
 import fotoCaetano from "@/images/Foto-Caetano.png"
+import Link from "next/link";
 
 export default function Integrantes() {
     return(
         <div className="flex flex-col items-center gap-8 mt-20 mb-40">
+        <Link href="https://github.com/Caepena/Car-Whisperer-Sprint4" className="mr-24 mb-10 font-bold text-blue-600 underline hover:text-blue-800">Repositório do Projeto</Link>
         <Integrante
         nome="Marcos Bispo"
         rm="558054"
