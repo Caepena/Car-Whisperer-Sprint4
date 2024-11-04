@@ -102,7 +102,7 @@ const handleSearch = async () => {
                             <td>{p.descricao}</td>
                             <td>{p.dataSinistro}</td>
                             <td>
-                                <Link href={`/${p.IDSinistro}`}>
+                                <Link href={`/sinistros/${p.IDSinistro}`}>
                                     <Editar className="inline text-3xl" />
                                 </Link>
                                 |

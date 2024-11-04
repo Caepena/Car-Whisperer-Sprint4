@@ -2,9 +2,9 @@
 
 import { SinistroProps } from "@/types/types";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-export default function EditarSinistros({ params }: { params: { id: number } }) {
+export default function CadSinistros() {
     const navigate = useRouter();
 
     const [sinistro, setSinistro] = useState<SinistroProps>({
@@ -15,21 +15,16 @@ export default function EditarSinistros({ params }: { params: { id: number } }) 
         descricao: "",
     });
 
-    useEffect(() => {
-        const chamadaApi = async () => {
-            const response = await fetch(`http://localhost:8080/CarWhisperer/sinistros/${params.id}`);
-            const data = await response.json();
-            setSinistro(data);
-        };
-        chamadaApi();
-    }, [params]);
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        setSinistro({ ...sinistro, [name]: value });
+    };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
         try {
-            const response = await fetch(`http://localhost:8080/CarWhisperer/sinistros/${params.id}`, {
-                method: "PUT",
+            const response = await fetch("http://localhost:8080/CarWhisperer/sinistros", {
+                method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -37,18 +32,25 @@ export default function EditarSinistros({ params }: { params: { id: number } }) 
             });
 
             if (response.ok) {
-                alert("Sinistro atualizado com sucesso!");
+                alert("Sinistro cadastrado com sucesso!");
+                setSinistro({
+                    IDSinistro: 0,
+                    codVeiculo: 0,
+                    dataSinistro: "",
+                    valorEstimado: 0,
+                    descricao: "",
+                });
                 navigate.push("/sinistros");
             }
         } catch (error) {
-            console.error("Erro na atualização do sinistro...", error);
+            console.error("Falha ao cadastrar o sinistro: ", error);
         }
     };
 
     return (
         <div className="flex items-center justify-center mt-32">
             <div className="bg-blue-500 rounded-md p-6 w-full max-w-lg">
-                <h2 className="text-center text-2xl font-bold mb-5 text-white">Editar Sinistro</h2>
+                <h2 className="text-center text-2xl font-bold mb-5 text-white">Cadastro de Sinistros</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="mb-5">
                         <label htmlFor="codVeiculo" className="block mb-2 text-sm font-medium text-white">Código do Veículo</label>
@@ -59,7 +61,8 @@ export default function EditarSinistros({ params }: { params: { id: number } }) 
                             required
                             name="codVeiculo"
                             value={sinistro.codVeiculo}
-                            onChange={(e) => setSinistro({ ...sinistro, codVeiculo: Number(e.target.value) })}
+                            onChange={handleChange}
+                            placeholder="Digite o código do veículo"
                         />
                     </div>
                     <div className="mb-5">
@@ -71,7 +74,7 @@ export default function EditarSinistros({ params }: { params: { id: number } }) 
                             required
                             name="dataSinistro"
                             value={sinistro.dataSinistro}
-                            onChange={(e) => setSinistro({ ...sinistro, dataSinistro: e.target.value })}
+                            onChange={handleChange}
                         />
                     </div>
                     <div className="mb-5">
@@ -83,7 +86,8 @@ export default function EditarSinistros({ params }: { params: { id: number } }) 
                             required
                             name="valorEstimado"
                             value={sinistro.valorEstimado}
-                            onChange={(e) => setSinistro({ ...sinistro, valorEstimado: Number(e.target.value) })}
+                            onChange={handleChange}
+                            placeholder="Digite o valor estimado do sinistro"
                         />
                     </div>
                     <div className="mb-5">
@@ -94,7 +98,8 @@ export default function EditarSinistros({ params }: { params: { id: number } }) 
                             required
                             name="descricao"
                             value={sinistro.descricao}
-                            onChange={(e) => setSinistro({ ...sinistro, descricao: e.target.value })}
+                            onChange={handleChange}
+                            placeholder="Digite uma descrição do sinistro"
                         />
                     </div>
 
@@ -102,7 +107,7 @@ export default function EditarSinistros({ params }: { params: { id: number } }) 
                         type="submit"
                         className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center"
                     >
-                        Atualizar
+                        Cadastrar
                     </button>
                 </form>
             </div>
