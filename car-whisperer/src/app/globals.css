@@ -2,3 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  
+    .tabelaCarro{
+      @apply border-2 border-gray-700 m-auto w-10/12 bg-gray-700 shadow-lg shadow-gray-600 font-sans font-bold mt-20 mb-20;
+  
+      & th,td{
+          @apply text-center text-white border-2 border-white py-5;
+      }
+  
+      & tbody tr{
+          @apply hover:bg-slate-500;
+      }
+  }
+  
+  }
