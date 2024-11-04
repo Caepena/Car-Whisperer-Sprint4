@@ -5,7 +5,7 @@ import Rodape from "@/components/Rodape/Rodape";
 
 
 export const metadata: Metadata = {
-  title: "CarWhisperer",
+  title: "Car Whisperer",
   description: "Site para manipular dados de carros, clientes, pagamentos e sinistros"
 };
 
