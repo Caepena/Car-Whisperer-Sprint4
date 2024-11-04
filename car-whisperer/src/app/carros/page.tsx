@@ -26,10 +26,15 @@ const handleDelete = async (id:number)=>{
         const response = await fetch(`http://localhost:8080/CarWhisperer/${id}`,{
             method: 'DELETE',
         });
+        console.log(response);
         if (response.ok) {
             alert("Carro excluído com sucesso.");
             chamadaApi();
         }
+        if  (response.status === 404) {
+            alert("Carro não pode ser excluído devido ao vínculo com um cliente.");
+        }
+
 } catch (error) {
     console.error("Falha ao remover o carro: ", error);
 }
@@ -39,7 +44,7 @@ const handleDelete = async (id:number)=>{
         <div>
             <h2 className="text-2xl font-bold ml-40 mt-24">Carros</h2>
 
-            <table className="tabelaCarro">
+            <table className="tabela">
                 <thead>
                     <tr>
                         <th>ID Veículo</th>
@@ -60,7 +65,7 @@ const handleDelete = async (id:number)=>{
                                     <Editar className="inline text-3xl" />
                                 </Link>
                                 |
-                                <Link href={`/${p.IDVeiculo}`} onClick={(e) => {
+                                <Link href="#" onClick={(e) => {
                                     e.preventDefault();
                                     handleDelete(p.IDVeiculo);
                                 }}>
