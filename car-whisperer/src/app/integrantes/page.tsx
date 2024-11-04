@@ -9,7 +9,7 @@ export default function Integrantes() {
         <Integrante
         nome="Marcos Bispo"
         rm="558054"
-        turma="1TDSPG"
+        turma="1TDSPZ"
         github="https://github.com/MarcosBisp"
         foto={fotoMarcos}/>
         <Integrante
