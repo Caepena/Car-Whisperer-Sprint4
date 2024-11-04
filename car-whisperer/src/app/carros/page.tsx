@@ -49,10 +49,10 @@ export default function Carros() {
             const response = await fetch(`http://localhost:8080/CarWhisperer/${searchId}`);
             if (response.ok) {
                 const data = await response.json();
-                setFilteredCarros([data]); // Atualiza os resultados para mostrar apenas o carro pesquisado
+                setFilteredCarros([data]);
             } else {
                 alert("Carro não encontrado.");
-                setFilteredCarros([]); // Limpa a exibição se o carro não for encontrado
+                setFilteredCarros([]);
             }
         } catch (error) {
             console.error("Erro na pesquisa do carro: ", error);

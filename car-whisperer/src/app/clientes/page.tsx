@@ -8,13 +8,16 @@ import { RiDeleteBin2Line as Excluir } from "react-icons/ri";
 
 export default function Clientes() {
 
+    const [searchId, setSearchId] = useState<string>("");
+    const [filteredClientes, setFilteredClientes] = useState<ClienteProps[]>([]);
+
     const [clientes, setClientes] = useState<ClienteProps[]>([]);
-    
     const chamadaApi = async ()=>{
         const response = await fetch("http://localhost:8080/CarWhisperer/clientes");
         const data = await response.json();
         
         setClientes(data);
+        setFilteredClientes(data);
     }
 
     useEffect(() => {
@@ -34,15 +37,49 @@ const handleDelete = async (id:number)=>{
         if  (response.status === 404) {
             alert("Cliente não foi encontrado.");
         }
+    } catch (error) {
+        console.error("Falha ao remover o cliente: ", error);
+    }
+}
 
-} catch (error) {
-    console.error("Falha ao remover o cliente: ", error);
-}
-}
+const handleSearch = async () => {
+    if (searchId.trim() === "") {
+        setFilteredClientes(clientes);
+        return;
+    }
+
+    try {
+        const response = await fetch(`http://localhost:8080/CarWhisperer/clientes/${searchId}`);
+        if (response.ok) {
+            const data = await response.json();
+            setFilteredClientes([data]);
+        } else {
+            alert("Cliente não encontrado.");
+            setFilteredClientes([]);
+        }
+    } catch (error) {
+        console.error("Erro na pesquisa do cliente: ", error);
+    }
+};
 
     return(
         <div>
             <h2 className="text-2xl font-bold ml-40 mt-24">Clientes</h2>
+            <div className="flex ml-40 mt-5 mb-5">
+                <input
+                    type="text"
+                    placeholder="Buscar pelo ID do cliente"
+                    value={searchId}
+                    onChange={(e) => setSearchId(e.target.value)}
+                    className="border border-gray-300 rounded-l-lg p-2 w-64"
+                />
+                <button
+                    onClick={handleSearch}
+                    className="bg-blue-500 text-white rounded-r-lg px-4"
+                >
+                    Buscar
+                </button>
+            </div>
 
             <table className="tabela">
                 <thead>
@@ -54,14 +91,14 @@ const handleDelete = async (id:number)=>{
                     </tr>
                 </thead>
                 <tbody>
-                    {clientes.map((p) => (
+                    {filteredClientes.map((p) => (
                         <tr key={p.IDCliente}>
                             <td>{p.IDCliente}</td>
                             <td>{p.nome}</td>
                             <td>{p.cpf}</td>
                             <td>{p.endereco}</td>
                             <td>
-                                <Link href={`/${p.IDCliente}`}>
+                                <Link href={`clientes/${p.IDCliente}`}>
                                     <Editar className="inline text-3xl" />
                                 </Link>
                                 |
@@ -83,6 +120,14 @@ const handleDelete = async (id:number)=>{
                     </tr>
                 </tfoot>
             </table>
+
+            <div className="flex justify-center mt-5">
+                <Link href="/clientes/cad-clientes">
+                    <button className="bg-blue-500 text-white font-semibold px-6 py-2 rounded-lg hover:bg-green-600">
+                        Cadastrar Novo Cliente
+                    </button>
+                </Link>
+            </div>
         </div>
     )
 }
