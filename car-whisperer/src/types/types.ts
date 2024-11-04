@@ -1,3 +1,5 @@
+import { StaticImageData } from "next/image";
+
 export type CarroProps = {
     IDVeiculo: number;
     codCliente: number;
@@ -25,4 +27,12 @@ export type SinistroProps = {
     dataSinistro: string;
     valorEstimado: number;
     descricao: string;
+}
+
+export type IntegranteProps = {
+    nome: string;
+    rm: string;
+    turma: string;
+    github: string;
+    foto: StaticImageData;
 }
